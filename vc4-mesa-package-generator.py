@@ -26,9 +26,9 @@ import os
 print "Create mesa working directory"
 
 rootdir = os.popen("pwd").read().strip("\n")
-os.popen("rm -r mesa-raspbian-vc4").read()
-os.mkdir("mesa-raspbian-vc4")
-os.chdir(rootdir + "/mesa-raspbian-vc4")
+os.popen("rm -r mesa-vc4").read()
+os.mkdir("mesa-vc4")
+os.chdir(rootdir + "/mesa-vc4")
 
 print "Update apt sources"
 os.popen("apt-get update").read()
@@ -37,11 +37,11 @@ print "Download mesa official sources"
 os.popen("apt-get source mesa").read()
 
 print "Save original folder name"
-for file in os.listdir(rootdir + "/mesa-raspbian-vc4"):
+for file in os.listdir(rootdir + "/mesa-vc4"):
 	if os.path.isdir(file):
 		orig_name = file
 
-orig_path = rootdir + "/mesa-raspbian-vc4/" + orig_name + "/"
+orig_path = rootdir + "/mesa-vc4/" + orig_name + "/"
 
 print "Print original name"
 print orig_name
@@ -50,19 +50,19 @@ print "Clone upstream mesa from git"
 os.popen("git clone " + git_mesa_url + " mesa").read()
 
 print "Get revision"
-os.chdir(rootdir + "/mesa-raspbian-vc4/mesa")
+os.chdir(rootdir + "/mesa-vc4/mesa")
 git_version = os.popen("git rev-parse --short HEAD").read().rstrip()
 print git_version
 
 print "Move git mesa directory"
-os.chdir(rootdir + "/mesa-raspbian-vc4")
+os.chdir(rootdir + "/mesa-vc4")
 new_name = orig_name + "-" + git_version
-new_path = rootdir + "/mesa-raspbian-vc4/" + new_name + "/"
+new_path = rootdir + "/mesa-vc4/" + new_name + "/"
 print new_path
-os.rename(rootdir + "/mesa-raspbian-vc4/mesa", new_path)
+os.rename(rootdir + "/mesa-vc4/mesa", new_path)
 
 print "Copy debian folder"
-os.chdir(rootdir + "/mesa-raspbian-vc4")
+os.chdir(rootdir + "/mesa-vc4")
 os.popen("cp -rp " + orig_path + "debian" + " " + new_path + "debian").read()
 
 print "Remove patches"
